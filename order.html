@@ -41,25 +41,21 @@
 
 <script>
     let chosenPkg = "";
-
     function selectPkg(element, val) {
         document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
         chosenPkg = val;
     }
-
     function orderNow() {
         let id = document.getElementById('playerID').value;
         if(!id || !chosenPkg) {
             alert("সব তথ্য সঠিকভাবে দিন!");
             return;
         }
-
         let myWhatsApp = "8801648117182"; 
         let message = "*নতুন অর্ডার - TBP Rita Top Up*\n\n" +
                       "🆔 প্লেয়ার আইডি: " + id + "\n" +
                       "💎 প্যাকেজ: " + chosenPkg;
-        
         window.open("https://wa.me/" + myWhatsApp + "?text=" + encodeURIComponent(message));
     }
 </script>
