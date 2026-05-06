@@ -5,44 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - TBP Shop</title>
     <style>
-        body { font-family: sans-serif; background: #f8f9fc; margin: 0; padding: 15px; }
-        .header { text-align: center; padding: 20px 0; }
-        .profile-section { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .profile-img { width: 70px; height: 70px; border-radius: 50%; border: 3px solid #003366; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: #fff; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #eee; }
-        .stat-value { font-size: 18px; font-weight: bold; color: #003366; }
-        .stat-label { font-size: 12px; color: #888; }
-        .info-box { background: #fff; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #003366; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 10px; }
+        .container { max-width: 450px; margin: auto; }
+        .header { text-align: center; padding: 15px 0; background: #fff; border-radius: 15px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .profile-card { background: white; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 15px; border-top: 5px solid #003366; }
+        .profile-img { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #003366; margin-bottom: 10px; }
+        .balance-text { font-size: 18px; font-weight: bold; color: #003366; margin: 5px 0; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-card { background: #fff; padding: 12px; border-radius: 12px; text-align: center; border: 1px solid #eee; }
+        .stat-value { font-size: 16px; font-weight: bold; color: #333; }
+        .stat-label { font-size: 11px; color: #888; text-transform: uppercase; }
+        
+        .pkg-section { background: white; border-radius: 20px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .pkg-title { font-weight: bold; color: #333; border-left: 4px solid #ff9900; padding-left: 10px; margin-bottom: 15px; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 15px; font-size: 14px; outline: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option { border: 1px solid #ddd; padding: 12px; border-radius: 12px; cursor: pointer; background: #fdfdfd; font-size: 13px; font-weight: bold; transition: 0.3s; text-align: center; }
+        .selected { border-color: #003366 !important; background: #003366 !important; color: white !important; }
+        .order-btn { width: 100%; padding: 15px; background: #25d366; color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <img src="https://via.placeholder.com/150x40?text=TOP+UP+BUZZ" alt="Logo">
-</div>
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0; color:#003366;">TOP UP BUZZ</h2>
+    </div>
 
-<div class="profile-section">
-    <img id="uPic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-img">
-    <h3 id="uName">Hi, User</h3>
-    <p style="font-size: 14px; color: #003366;">Available Balance: ৳ 0</p>
-</div>
+    <div class="profile-card">
+        <img id="uPic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-img">
+        <h3 id="uName" style="margin:5px 0;">Hi, User</h3>
+        <div class="balance-text">Available Balance: ৳ 0</div>
+    </div>
 
-<div class="stats-grid">
-    <div class="stat-card"><div class="stat-value">267153</div><div class="stat-label">Support Pin</div></div>
-    <div class="stat-card"><div class="stat-value">৳ 0</div><div class="stat-label">Weekly Spent</div></div>
-    <div class="stat-card"><div class="stat-value">৳ 0</div><div class="stat-label">Total Spent</div></div>
-    <div class="stat-card"><div class="stat-value">0</div><div class="stat-label">Total Order</div></div>
-</div>
+    <div class="stats-grid">
+        <div class="stat-card"><div class="stat-value">267153</div><div class="stat-label">Support Pin</div></div>
+        <div class="stat-card"><div class="stat-value">৳ 0</div><div class="stat-label">Total Spent</div></div>
+    </div>
 
-<div class="info-box">
-    <strong>User Information</strong><br>
-    <span style="font-size: 13px;" id="uEmail">email: user@gmail.com</span>
+    <div class="pkg-section">
+        <div class="pkg-title">সিলেক্ট প্যাকেজ</div>
+        <input type="number" id="playerID" placeholder="প্লেয়ার আইডি (UID) দিন">
+        
+        <div class="grid">
+            <div class="option" onclick="selectPkg(this, '১১৫ 💎 - ৮০৳')">১১৫ 💎<br>৮০ ৳</div>
+            <div class="option" onclick="selectPkg(this, '২৪০ 💎 - ১৬০৳')">২৪০ 💎<br>১৬০ ৳</div>
+            <div class="option" onclick="selectPkg(this, '৩৫৫ 💎 - ২৪০৳')">৩৫৫ 💎<br>২৪০ ৳</div>
+            <div class="option" onclick="selectPkg(this, '৪৮০ 💎 - ৩৩০৳')">৪৮০ 💎<br>৩৩০ ৳</div>
+            <div class="option" onclick="selectPkg(this, '৬১০ 💎 - ৪১০৳')">৬১০ 💎<br>৪১০ ৳</div>
+            <div class="option" onclick="selectPkg(this, 'Monthly - ৭৮০৳')">Monthly<br>৭৮০ ৳</div>
+        </div>
+
+        <button class="order-btn" onclick="orderNow()">অর্ডার করুন (WhatsApp)</button>
+    </div>
 </div>
 
 <script>
+    // প্রোফাইল ডাটা লোড করা
     document.getElementById('uName').innerText = "Hi, " + (localStorage.getItem('userName') || "User");
-    document.getElementById('uEmail').innerText = "email: " + (localStorage.getItem('userEmail') || "N/A");
+    
+    let chosenPkg = "";
+    function selectPkg(element, val) {
+        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+        chosenPkg = val;
+    }
+
+    function orderNow() {
+        let id = document.getElementById('playerID').value;
+        if(!id || !chosenPkg) {
+            alert("প্লেয়ার আইডি এবং প্যাকেজ সিলেক্ট করুন!");
+            return;
+        }
+        let myWhatsApp = "8801648117182"; 
+        let message = "*নতুন অর্ডার - TBP Shop*\n\n" +
+                      "👤 গ্রাহক: " + (localStorage.getItem('userName') || "User") + "\n" +
+                      "🆔 প্লেয়ার আইডি: " + id + "\n" +
+                      "💎 প্যাকেজ: " + chosenPkg;
+        window.open("https://wa.me/" + myWhatsApp + "?text=" + encodeURIComponent(message));
+    }
 </script>
 
 </body>
