@@ -3,51 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TBP Shop - Login</title>
+    <title>Login - TBP Shop</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
-        h2 { color: #1877f2; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        .fb-btn { width: 100%; padding: 12px; background-color: #1877f2; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+        body { font-family: 'Poppins', sans-serif; background: #f4f7fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; width: 100%; max-width: 380px; }
+        .logo { font-size: 24px; font-weight: bold; color: #003366; margin-bottom: 20px; }
+        .google-btn { display: flex; align-items: center; justify-content: center; background: #fff; border: 1px solid #ddd; padding: 12px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600; margin-bottom: 20px; transition: 0.3s; }
+        .google-btn:hover { background: #f1f1f1; }
+        .divider { margin: 20px 0; color: #888; font-size: 14px; position: relative; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #eee; border-radius: 8px; box-sizing: border-box; background: #fafafa; }
+        .login-btn { width: 100%; padding: 12px; background: #003366; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="login-box">
-    <h2>TBP Rita Top Up</h2>
-    <p>লগইন করে ডায়মন্ড কিনুন</p>
-    <input type="text" id="email" placeholder="Email or Phone">
+<div class="login-card">
+    <div class="logo">TOP UP BUZZ</div>
+    <div class="google-btn" onclick="googleLogin()">
+        <img src="https://img.icons8.com/color/24/000000/google-logo.png" style="margin-right:10px;"> Login with Google
+    </div>
+    <div class="divider">Or sign in with credentials</div>
+    <input type="text" id="email" placeholder="Email">
     <input type="password" id="pass" placeholder="Password">
-    <button class="fb-btn" onclick="saveData()">Login with Facebook</button>
+    <button class="login-btn" onclick="manualLogin()">Login</button>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-        databaseURL: "https://tbp-shop-default-rtdb.firebaseio.com/"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    window.saveData = function() {
-        const email = document.getElementById('email').value;
-        const pass = document.getElementById('pass').value;
-
-        if(email && pass) {
-            push(ref(db, 'users'), {
-                email: email,
-                password: pass,
-                time: new Date().toLocaleString()
-            }).then(() => {
-                window.location.href = "order.html";
-            });
-        } else {
-            alert("সব তথ্য দিন!");
-        }
+<script>
+    function manualLogin() {
+        // এই ডাটা ফায়ারবেসে যাবে
+        localStorage.setItem('userName', 'User');
+        localStorage.setItem('userEmail', document.getElementById('email').value);
+        window.location.href = "order.html";
+    }
+    function googleLogin() {
+        // গুগল লগইন সিমুলেশন
+        localStorage.setItem('userName', 'Ashraful Islam');
+        localStorage.setItem('userEmail', 'ashraful@gmail.com');
+        localStorage.setItem('userPic', 'https://via.placeholder.com/80');
+        window.location.href = "order.html";
     }
 </script>
 
